@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!--Css files-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../style/style.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <!--jS files-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/v/bs5/jq-3.6.0/jszip-2.5.0/dt-1.11.4/af-2.3.7/b-2.2.2/b-colvis-2.2.2/b-html5-2.2.2/b-print-2.2.2/cr-1.5.5/date-1.1.1/r-2.2.9/datatables.min.css" />
+
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+
+</head>
+
+<body>
+    <div class="container-fluid">
+
+        <div class="row vh-100">
+            <div id="side-bar" class="col-lg-2 close">
+                <div id="nav-bar-header" class="d-flex justify-content-end">
+                    <button id="nav-close" class="show"><i class="fas fa-times "></i></button>
+                </div>
+                <div id="profile-card" class="d-flex px-2">
+                    <div id="account-img"></div>
+                    <div class="d-flex flex-column px-2">
+                        <span id="account-name"></span>
+                        <span id="account-role">Operator</span>
+                    </div>
+                </div>
+                <ul id="side-nav" class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../dashboard/index.html">
+                            <div class="d-flex align-items-center p-0">
+                                <div style="width: 20px;">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <span class="px-2">Dashboard</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">
+                            <div class="d-flex align-items-center p-0">
+                                <div style="width: 20px;">
+                                    <i class="fas fa-parking"></i>
+                                </div>
+                                <span class="px-2">Park</span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">
+                            <div class="d-flex align-items-center">
+                                <div style="width: 20px;">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+
+                                <span class="px-2">Statistics</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">
+                            <div class="d-flex align-items-center">
+                                <div style="width: 20px;">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </div>
+                                <span class="px-2">Logout</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div id="main-content" class="col-lg-10 container-fluid">
+                <header>
+                    <button id="nav-button" style="width: fit-content;" type="button" class="btn btn-dark show"><i
+                            class="fas fa-bars"></i></button>
+                </header>
+                <!--Main Content-->
+                <main class="row py-3 m-0">
+                    <div class="container-fluid">
+                        <!--first row-->
+                        <div class="row ">
+
+
+                            <div class="col-lg-8 p-1">
+                                <div class="h-100 section-style">
+                                    <h6>
+                                        <div class="d-flex align-items-center">
+                                            <div style="width: 20px;">
+                                                <i class="fas fa-chart-bar"></i>
+                                            </div>
+                                            <span class="px-2">Statistics</span>
+                                        </div>
+                                    </h6>
+                                    <div class="container-fluid p-1">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-6 p-2">
+                                                <div class="statistics-card d-flex">
+                                                    <div class="left-section d-flex  align-items-center px-3">
+                                                        <i class="fas fa-user-tie"></i>
+                                                    </div>
+                                                    <div
+                                                        class="right-section d-flex flex-column justify-content-center align-items-end px-3">
+
+                                                        <span id="operators-count" class="count">0</span>
+                                                        <span class="statistics-card-title">Operator</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-6 p-2">
+                                                <div class="statistics-card d-flex">
+                                                    <div class="left-section d-flex  align-items-center px-3">
+                                                        <i class="fas fa-route"></i>
+                                                    </div>
+                                                    <div
+                                                        class="right-section d-flex flex-column justify-content-center align-items-end px-3">
+
+                                                        <span id="routes-count" class="count">0</span>
+                                                        <span class="statistics-card-title">Route</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-6 p-2">
+                                                <div class="statistics-card d-flex">
+                                                    <div class="left-section d-flex  align-items-center px-3">
+                                                        <i class="fas fa-taxi"></i>
+                                                    </div>
+                                                    <div
+                                                        class="right-section d-flex flex-column justify-content-center align-items-end px-3">
+
+                                                        <span id="taxis-count" class="count">0</span>
+                                                        <span class="statistics-card-title">Taxi</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-6 p-2">
+                                                <div class="statistics-card d-flex">
+                                                    <div class="left-section d-flex  align-items-center px-3">
+                                                        <i class="fas fa-user"></i>
+                                                    </div>
+                                                    <div
+                                                        class="right-section d-flex flex-column justify-content-center align-items-end px-3">
+
+                                                        <span id="drivers-count" class="count">0</span>
+                                                        <span class="statistics-card-title">Driver</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" col-lg-4 p-1">
+                                <div class="section-style" style="height: 100%;">
+                                    <h6>
+                                        <div class="d-flex align-items-center">
+                                            <div style="width: 20px;">
+                                                <i class="fas fa-parking"></i>
+                                            </div>
+
+                                            <span class="px-2">park Info</span>
+                                        </div>
+                                    </h6>
+                                    <div>
+                                        <div class="d-flex justify-content-between">
+                                            <span style="color: white;"><strong>Park Name</strong></span>
+                                            <span id="park-name" style="color: white;"></span>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <span style="color: white;"><strong>Park Location</strong></span>
+                                            <span id="park-loc" style="color: white;"></span>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <span style="color: white;"><strong>Date</strong></span>
+                                            <span id="park-date" style="color: white;"></span>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <span style="color: white;"><strong>Start Workday Time</strong></span>
+                                            <span id="park-start-time" style="color: white;"></span>
+                                        </div>
+                                        <div class="d-flex justify-content-end">
+                                            <button style="width: 120px;" type="button"
+                                                class="btn btn-danger">End</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--second row-->
+                        <div class="row">
+                            <div class=" col-lg-12 p-1">
+                                <div class="section-style">
+                                    <h6>
+                                        <div class="d-flex align-items-center">
+                                            <div style="width: 20px;">
+                                                <i class="fas fa-table"></i>
+                                            </div>
+
+                                            <span class="px-2">Driver request</span>
+                                        </div>
+                                    </h6>
+                                    <div style="min-height: 400px;max-height: 500px;">
+
+                                        <div class="table-responsive">
+                                            <table id="requests-table" class="table table-striped">
+                                                <thead class="table-dark">
+                                                    <th>Name</th>
+                                                    <th>Route</th>
+                                                    <th>Request title</th>
+                                                    <th>Request time</th>
+                                                    <th>Action</th>
+                                                </thead>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--thrid row-->
+                        <div class="row">
+                            <div class="col-lg-8 p-1">
+
+                                <div class="section-style">
+                                    <h6>
+                                        <div class="d-flex align-items-center">
+                                            <div style="width: 20px;">
+                                                <i class="fas fa-route"></i>
+                                            </div>
+                                            <span class="px-2">Route</span>
+                                        </div>
+                                    </h6>
+                                    <!--routes list-->
+                                    <div id="routes" style="color: white;"></div>
+                                    <div class="container-fluid py-1">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 p-1">
+                                                <div class="list-container p-1">
+                                                    <h6>
+                                                        <div class="d-flex align-items-center px-2">
+                                                            <div style="width: 20px;">
+                                                                <i class="fas fa-user"></i>
+                                                            </div>
+                                                            <span class="px-2">Driver</span>
+                                                        </div>
+                                                    </h6>
+                                                    <div id="drivers-list" class="px-1">
+
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--in park list-->
+                                            <div class="col-lg-4 col-md-4 p-1">
+                                                <div class="list-container p-1">
+                                                    <h6>
+                                                        <div class="d-flex align-items-center px-2">
+                                                            <div style="width: 20px;">
+                                                                <i class="fas fa-arrow-up"></i>
+                                                            </div>
+                                                            <span class="px-2">In Park</span>
+                                                        </div>
+                                                    </h6>
+                                                    <div id="in-list" class="px-1">
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!--out park list-->
+                                            <div class="col-lg-4 col-md-4 p-1">
+                                                <div class="list-container p-1">
+                                                    <h6>
+                                                        <div class="d-flex align-items-center px-2">
+                                                            <div style="width: 20px;">
+                                                                <i class="fas fa-arrow-down"></i>
+                                                            </div>
+                                                            <span class="px-2">Out Park</span>
+                                                        </div>
+                                                    </h6>
+                                                    <div id="out-list" class="px-1">
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 p-1 " style=" height: 628px;">
+                                <div class="container-fluid p-0" style="height: 100%;">
+                                    <div class="section-style" style="height: 100%;">
+                                        <h6>
+                                            <div class="d-flex align-items-center">
+                                                <div style="width: 20px;">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                                <span class="px-2">Driver</span>
+                                            </div>
+                                        </h6>
+                                        <!--routes list-->
+                                        <div style="color: white;"></div>
+                                        <div class="container-fluid py-1">
+                                            <div id="drivers" class="row d-flex flex-column">
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            </main>
+        </div>
+    </div>
+    </div>
+    <script src="../../js/sidenav.js"></script>
+    <script src="../../js/account-details.js"></script>
+    <script type="module" src="../../js/control-panel/readData.js"></script>
+
+    <!--sortable cdn-->
+   
+  <script src="https://unpkg.com/sortablejs-make/Sortable.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-sortablejs@latest/jquery-sortable.js"></script>
+
+    <script type="text/javascript"
+        src="https://cdn.datatables.net/v/bs5/jq-3.6.0/jszip-2.5.0/dt-1.11.4/af-2.3.7/b-2.2.2/b-colvis-2.2.2/b-html5-2.2.2/b-print-2.2.2/cr-1.5.5/date-1.1.1/r-2.2.9/datatables.min.js"></script>
+
+</body>
+
+</html>

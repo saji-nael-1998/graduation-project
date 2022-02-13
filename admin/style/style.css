@@ -1,0 +1,332 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    min-height: 100%;
+    max-height: fit-content;
+
+
+}
+
+#side-bar {
+    background-color: #31353D;
+
+}
+/* content-section-style*/
+.content-section{
+    padding: 10px;
+    background-color: #313030;
+}
+.content-section-header h6{
+    width: 100%;
+  
+    border-bottom: solid 0.5px #818896;
+    padding: 5px 0;
+    color: #818896;
+    text-transform: uppercase;
+
+}
+#main-content {
+    background-color: #242424;
+    min-height: 100%;
+    max-height: fit-content;
+}
+
+#nav-bar-header {
+    color: #778896;
+    padding: 10px 0;
+    text-transform: uppercase;
+    border-bottom: solid .5px #3A3F48;
+
+}
+
+#nav-bar-header i {
+    font-size: 25px;
+    cursor: pointer;
+}
+
+#profile-card {
+    padding: 10px 0;
+    border-bottom: solid .5px #3A3F48;
+
+}
+
+.table-responsive, th, td {
+    color: white;
+}
+
+#profile-card #account-img {
+    width: 75px;
+    height: 75px;
+    background-image: url("../img/saji.jpg");
+    border-radius: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#profile-card #account-name {
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#profile-card #account-role {
+    color: #818896;
+    font-weight: bold;
+    font-size: 12px;
+
+}
+
+#side-nav .nav-item a {
+    color: #818896;
+}
+
+#side-nav .nav-item:hover {
+    background-color: #282b31;
+    border-radius: 10px;
+}
+
+#nav-close {
+    background: none;
+    border: 0;
+    color: white;
+}
+
+.show, #nav-button {
+    display: none;
+}
+
+/* main content */
+
+#nav-button {
+
+    background-color: #3f3e3e;
+}
+
+.state-card {
+    background-color: #31353D;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.state-card i {
+    color: white;
+    font-size: 35px;
+}
+
+.state-card .count {
+
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.state-card span {
+    color: rgb(182, 176, 176);
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    display: block;
+    text-transform: uppercase;
+}
+
+.statistics-card {
+    height: 140px;
+    background-color: #3d3d3d;
+    border-radius: 10px;
+    color: white;
+}
+
+.statistics-card .left-section, .statistics-card .right-section {
+
+    height: 100%;
+    width: 50%;
+}
+
+.statistics-card .right-section .statistics-card-title {
+    color: #a9a9a9;
+    font-size: 18px;
+}
+
+.statistics-card .right-section .count {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.statistics-card .left-section i {
+
+    font-size: 40px;
+}
+
+.statistics-card-header {
+    color: #818896;
+    padding: 5px 10px;
+}
+
+.statistics-card-header i {
+
+    font-size: 20px;
+}
+
+.statistics-card-header span {
+    font-size: 20px;
+    padding: 0 10px;
+    font-weight: bold;
+}
+
+.statistics-card-content {
+    padding: 5px 10px;
+}
+
+.statistics-card-content span {
+    font-size: 40px;
+    color: white;
+
+}
+
+#table-container {
+
+    padding: 10px;
+}
+
+.section-style {
+    background-color: #313030;
+    padding: 10px 20px;
+}
+
+.section-style h6 {
+    border-bottom: solid 0.5px #818896;
+    padding: 5px 0;
+    color: #818896;
+    text-transform: uppercase;
+
+}
+
+button a {
+    display: block;
+    height: 100%;
+    color: white;
+    text-decoration: none;
+}
+
+button a:hover {
+    color: white;
+
+}
+
+.error {
+    color: red;
+}
+
+.profile-form-photo {
+    height: 120px;
+    width: 120px;
+    border-radius: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* login page */
+#login-form-container {
+    color: white;
+    background-color: #313030;
+    height: fit-content;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+#login-form-container button {
+    text-transform: uppercase;
+    width: 100%;
+}
+
+#login-form-container a {
+    display: block;
+    color: white;
+    text-align: end;
+    width: 100%;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+#login-form-container a:hover {
+    color: rgb(182, 179, 179);
+}
+
+#login-form-container #emailHelp, #login-form-container #passHelp {
+    color: red;
+}
+
+.list-container {
+    background-color: #424040;
+    height: 550px;
+    border-radius: 10px;
+}
+
+.list-container #drivers-list, .list-container #in-list, .list-container #out-list {
+
+    height: 90%;
+    overflow: auto;
+}
+
+.list-container #drivers-list::-webkit-scrollbar {
+    display: none;
+    /* for Chrome, Safari, and Opera */
+}
+
+
+.driver-card {
+    padding: 10px 0;
+    border-radius: 10px;
+    background-color: #313030;
+    cursor: pointer;
+    margin: 5px 0;
+}
+
+.driver-card .driver-img {
+    width: 75px;
+    height: 75px;
+    background-image: url("../img/saji.jpg");
+    border-radius: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.driver-card .driver-name {
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.driver-card .driver-taxi {
+    color: #818896;
+    font-weight: bold;
+    font-size: 12px;
+
+}
+
+@media (max-width: 800px) {
+
+    #side-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 4;
+    }
+
+    .close {
+        display: none;
+    }
+
+    .show, #nav-button {
+        display: block;
+    }
+}
