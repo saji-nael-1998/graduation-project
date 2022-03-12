@@ -57,28 +57,9 @@
                             </div>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../park-control-panel/index.html">
-                            <div class="d-flex align-items-center p-0">
-                                <div style="width: 20px;">
-                                    <i class="fas fa-parking"></i>
-                                </div>
-                                <span class="px-2">Park</span>
-                            </div>
-                        </a>
-                    </li>
+                   
 
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">
-                            <div class="d-flex align-items-center">
-                                <div style="width: 20px;">
-                                    <i class="fas fa-chart-bar"></i>
-                                </div>
-
-                                <span class="px-2">Statistics</span>
-                            </div>
-                        </a>
-                    </li>
+                
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">
                             <div class="d-flex align-items-center">
@@ -230,14 +211,126 @@
                                             <thead class="table-dark">
                                                 <th>Name</th>
                                                 <th>Taxi</th>
-                                                <th>Plate NO</th>
                                                 <th>Route</th>
+                                                <th>Action</th>
                                             </thead>
 
                                         </table>
 
                                     </div>
                                 </div>
+                                <div class="modal fade" id="editModel" tabindex="-1"
+                                        aria-labelledby="editModelLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-scrollable">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editModelLabel">Driver</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form id="update-operator-form" enctype="multipart/form-data">
+                                                        <div class="container-fluid">
+                                                            <div class="row py-1 d-flex flex-column">
+                                                                <div class="col-lg-6 col-md-12">
+
+                                                                    <div style="    height: 120px;
+                                                                    width: 120px;
+                                                                    border-radius: 10px;
+                                                                    background-size: cover;
+                                                                    background-repeat: no-repeat;
+                                                                    background-position: center;" class="profile-form-photo">
+
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+                                                            <div class="row py-1">
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">First Name</label>
+                                                                    <input type="text" class="form-control" name="FName"
+                                                                        placeholder="First name"
+                                                                        aria-label="First name">
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Mid Name</label>
+
+                                                                    <input type="text" class="form-control" name="MName"
+                                                                        placeholder="Mid name" aria-label="Mid name">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row py-1">
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Last Name</label>
+                                                                    <input type="text" class="form-control" name="LName"
+                                                                        placeholder="Last name" aria-label="Last name">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row py-1">
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Birthdate</label>
+                                                                    <input type="date" class="form-control"
+                                                                        name="birthdate" placeholder="birthdate"
+                                                                        aria-label="birthdate">
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">ID</label>
+                                                                    <input type="text" class="form-control" name="ID"
+                                                                        placeholder="ID" aria-label="ID">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row py-1">
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Email</label>
+                                                                    <input type="email" class="form-control"
+                                                                        name="email" placeholder="email"
+                                                                        aria-label="email">
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Phone NO</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="phoneNO" placeholder="Phone NO"
+                                                                        aria-label="phoneNO">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row py-1">
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Street</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="street" placeholder="street"
+                                                                        aria-label="street">
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">City</label>
+                                                                    <input type="text" class="form-control" name="city"
+                                                                        placeholder="City" aria-label="city"
+                                                                        value="Ramallah" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row py-1">
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Password</label>
+                                                                    <input type="text" class="form-control" name="pass"
+                                                                        placeholder="password" aria-label="street">
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Confirm
+                                                                        password</label>
+                                                                    <input type="text" class="form-control" name="CPass"
+                                                                        placeholder="confirm password"
+                                                                        aria-label="CPass">
+                                                                </div>
+                                                            </div>
+                                                          
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -248,7 +341,7 @@
     </div>
     <script src="../../js/sidenav.js"></script>
     <script src="../../js/account-details.js"></script>
-    <script src="../../js/dashboard/dashboard.js"></script>
+    <script type="module" src="../../js/dashboard/dashboard.js"></script>
     <script type="module" src="../../js/dashboard/startWorkDay.js"></script>
 
 </body>

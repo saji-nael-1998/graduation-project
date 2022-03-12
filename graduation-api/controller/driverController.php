@@ -42,7 +42,7 @@ class driverController
 
         $data['driver'] = $sql->fetch(PDO::FETCH_ASSOC);
 
-
+      
         //create object of controller
         $taxiController = new TaxiController();
         if (!empty($data['driver'])) {
@@ -89,106 +89,14 @@ class driverController
         $statement = $this->conn->prepare($sql);
         $statement->execute();
     }
-    public function isEmailAvaiable($data)
-    {
 
-        if (isset($data['id'])) {
-            $email = $data['email'];
-            $sql = $this->conn->prepare("select ifnull((select u.ID from user u , driver o  where u.record_status='active' and o.user_id=u.user_id and u.email = '$email'),'null') As id;");
-
-            $sql->execute();
-            $result['data'] = $sql->fetch(PDO::FETCH_ASSOC);
-
-            if ($result['data']['id'] == "null") {
-                return "true";
-            } else {
-                if ($result['data']['id'] == $data['id'])
-                    return "true";
-                else
-                    return "false";
-            }
-        } else {
-
-            $email = $data['email'];
-            $sql = $this->conn->prepare("SELECT count(*) as flag from $this->table o , `user` u where o.user_id=u.user_id and  u.record_status='active' and u.email='$email' ");
-
-            $sql->execute();
-            $data['data'] = $sql->fetch(PDO::FETCH_ASSOC);
-
-            if ($data['data']['flag'] == 0) {
-                return "true";
-            } else {
-                return "false";
-            }
-        }
-    }
-    public function isIDAvaiable($data)
-    {
-        if (isset($data['email'])) {
-            $id = $data['id'];
-            $sql = $this->conn->prepare("select ifnull((select u.email from user u , driver o  where u.record_status='active' and o.user_id=u.user_id and u.ID = '$id'),'null') As email");
-
-            $sql->execute();
-            $result['data'] = $sql->fetch(PDO::FETCH_ASSOC);
-
-            if ($result['data']['email'] == "null") {
-                return "true";
-            } else {
-                if ($result['data']['email'] == $data['email'])
-                    return "true";
-                else
-                    return "false";
-            }
-        } else {
-
-            $id  = $data['id'];
-            $sql = $this->conn->prepare("SELECT count(*) as flag from $this->table o , `user` u where o.user_id=u.user_id and  u.record_status='active' and u.ID='$id' ");
-
-            $sql->execute();
-            $data['data'] = $sql->fetch(PDO::FETCH_ASSOC);
-
-            if ($data['data']['flag'] == 0) {
-                return "true";
-            } else {
-                return "false";
-            }
-        }
-    }
-    public function isPhoneAvaiable($data)
-    {
-        if (isset($data['id'])) {
-            $phone = $data['phone'];
-            $sql = $this->conn->prepare("select ifnull((select u.ID from user u , driver o  where u.record_status='active' and o.user_id=u.user_id and u.phoneNO = '$phone'),'null') As id;");
-
-            $sql->execute();
-            $result['data'] = $sql->fetch(PDO::FETCH_ASSOC);
-
-            if ($result['data']['id'] == "null") {
-                return "true";
-            } else {
-                if ($result['data']['id'] == $data['id'])
-                    return "true";
-                else
-                    return "false";
-            }
-        } else {
-
-            $phone  = $data['phone'];
-            $sql = $this->conn->prepare("SELECT count(*) as flag from $this->table o , `user` u where o.user_id=u.user_id and  u.record_status='active' and u.phoneNO='$phone' ");
-
-            $sql->execute();
-            $data['data'] = $sql->fetch(PDO::FETCH_ASSOC);
-
-            if ($data['data']['flag'] == 0) {
-                return "true";
-            } else {
-                return "false";
-            }
-        }
-    }
     public function login($email, $pass)
     {
-        $sql = "SELECT u.user_id from `user` u , `driver` d WHERE d.user_id=u.user_id AND u.record_status='active' and u.email='$email' and u.pass='$pass'";
+        $sql = "SELECT
+        USER.user_id
+    FROM
+        `user`
+    INNER JOIN driver ON driver.user_id = USER.user_id AND USER.record_status = 'active' AND USER.email = '$email' and USER. pass = '$pass'";
 
         $statement = $this->conn->prepare($sql);
         $statement->execute();
@@ -198,10 +106,100 @@ class driverController
         if (empty($result))
             $data['data']['proccess'] = 'failed';
         else {
-           
-            $data['data']= $this->read($result['user_id']);
+
+            $data['data'] = $this->read($result['user_id']);
             $data['data']['proccess'] = 'success';
         }
         return  $data;
+    }
+    public function ownEmail($email, $userID)
+    {
+        $sql = $this->conn->prepare("SELECT user.user_id as 'userID'  FROM user 
+        INNER JOIN driver on driver.user_id=user.user_id AND user.record_status='active' and email='$email'");
+        $sql->execute();
+        $result = $sql->fetch(PDO::FETCH_ASSOC);
+        if (!empty($result)) {
+            if ($result['userID'] == $userID) {
+                return 'true';
+            } else {
+                return 'false';
+            }
+        } else {
+            return $this->isEmailAvaiable($email);
+        }
+    }
+    public function isEmailAvaiable($email)
+    {
+        $sql = $this->conn->prepare("SELECT COUNT(*) as 'flag' FROM user 
+        INNER JOIN driver on driver.user_id=user.user_id and user.record_status='active' and user.email='$email'");
+        $sql->execute();
+        $result = $sql->fetch(PDO::FETCH_ASSOC);
+        if (!empty($result)) {
+            if ($result['flag'] == 0) {
+                return 'true';
+            } else {
+                return 'false';
+            }
+        }
+    }
+    public function ownPhoneNO($phoneNO, $userID)
+    {
+        $sql = $this->conn->prepare("SELECT user.user_id as 'userID'  FROM user 
+        INNER JOIN driver on driver.user_id=user.user_id AND user.record_status='active' and phoneNO='$phoneNO'");
+        $sql->execute();
+        $result = $sql->fetch(PDO::FETCH_ASSOC);
+        if (!empty($result)) {
+            if ($result['userID'] == $userID) {
+                return 'true';
+            } else {
+                return 'false';
+            }
+        } else {
+            return $this->isPhoneAvaiable($phoneNO);
+        }
+    }
+    public function isPhoneAvaiable($phoneNO)
+    {
+        $sql = $this->conn->prepare("SELECT COUNT(*) as 'flag' FROM user 
+        INNER JOIN driver on driver.user_id=user.user_id and user.record_status='active' and user.phoneNO='$phoneNO'");
+        $sql->execute();
+        $result = $sql->fetch(PDO::FETCH_ASSOC);
+        if (!empty($result)) {
+            if ($result['flag'] == 0) {
+                return 'true';
+            } else {
+                return 'false';
+            }
+        }
+    }
+    public function ownID($id, $userID)
+    {
+        $sql = $this->conn->prepare("SELECT user.user_id as 'userID'  FROM user 
+        INNER JOIN driver on driver.user_id=user.user_id AND user.record_status='active' and ID='$id'");
+        $sql->execute();
+        $result = $sql->fetch(PDO::FETCH_ASSOC);
+        if (!empty($result)) {
+            if ($result['userID'] == $userID) {
+                return 'true';
+            } else {
+                return 'false';
+            }
+        } else {
+            return $this-> isIDAvaiable($id);
+        }
+    }
+    public function isIDAvaiable($id)
+    {
+        $sql = $this->conn->prepare("SELECT COUNT(*) as 'flag' FROM user 
+        INNER JOIN driver on driver.user_id=user.user_id and user.record_status='active' and user.ID='$id'");
+        $sql->execute();
+        $result = $sql->fetch(PDO::FETCH_ASSOC);
+        if (!empty($result)) {
+            if ($result['flag'] == 0) {
+                return 'true';
+            } else {
+                return 'false';
+            }
+        }
     }
 }

@@ -42,6 +42,14 @@ class WorkdayController
     public function update($park)
     {
     }
+
+
+    public function updateDriverWorkday($date,$userID,$workdayEnd){
+        $sql = "UPDATE `workday` SET workday_end='$workdayEnd' where workday_date='$date' and user_id=$userID  ";
+
+        $statement = $this->conn->prepare($sql);
+        $statement->execute();
+    }
     public function delete($parkID)
     {
         $sql = $this->conn->prepare("UPDATE $this->table set record_status='inactive' where park_id=$parkID");

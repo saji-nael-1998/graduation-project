@@ -41,33 +41,6 @@ function getCurrentDate() {
 const operator = JSON.parse(sessionStorage.getItem("operator"));
 
 
-function readData() {
-
-    const driverShiftRef = ref(db, `days/${getCurrentDate()}/${operator.park_id}/`);
-    onValue(driverShiftRef, (snapshot) => {
-        if (snapshot.exists()) {
-            const json = snapshot.val()
-            let parkInfo = {
-                date: json.date,
-                "parkName": operator.park_name,
-                "parkLocation": json.parkLocation,
-                "startTime": json.startTime
-            }
-            setParkInfo(parkInfo)
-            //read driver request
-            let requests = [];
-            if (json.requests != undefined) {
-                // setRequestTable(json.requests);
-            } else {
-                /* var table = $('#request-table').DataTable();
-                 table.clear().draw();*/
-            }
-            //set route
-            readParkRoute(json.routes);
-
-        }
-    });
-}
 
 var table = $('#requests-table').DataTable();
 
@@ -89,26 +62,30 @@ setParkInfo();
 
 function setStatisticsInfo() {
 
-    /*const driverShiftRef = ref(db, `days/${getCurrentDate()}/${operator.park_id}/`);
+    const driverShiftRef = ref(db, `days/${getCurrentDate()}/${operator.park_id}/`);
     onValue(driverShiftRef, (snapshot) => {
 
         if (snapshot.exists()) {
             let json = snapshot.val();
-            if (Object.keys(json.drivers).length != 0) {
+
+            if (json.drivers != undefined && Object.keys(json.drivers).length != 0) {
                 $("#drivers-count").empty().append(Object.keys(json.drivers).length);
                 $("#taxis-count").empty().append(Object.keys(json.drivers).length);
+            } else {
+                $("#drivers-count").empty().append(0);
+                $("#taxis-count").empty().append(0);
             }
-            if (Object.keys(json.routes).length != 0) {
+            if (json.routes != undefined && Object.keys(json.routes).length != 0) {
                 $("#routes-count").empty().append(Object.keys(json.routes).length);
 
             }
-            if (Object.keys(json.operators).length != 0) {
+            if (json.operators != undefined && Object.keys(json.operators).length != 0) {
                 $("#operators-count").empty().append(Object.keys(json.operators).length);
 
             }
 
         }
-    });*/
+    });
 
 }
 setStatisticsInfo();
@@ -206,8 +183,6 @@ function setStartWorkdayRequest(userID, request) {
             update(ref(db, `days/${getCurrentDate()}/${operator.park_id}/requests/${userID}/`), {
                 requestStatus: "approved"
             });
-            //set driver list
-            setDriverList();
 
         });
         $(`#${userID}-f`).click(function () {
@@ -216,6 +191,7 @@ function setStartWorkdayRequest(userID, request) {
     });
 }
 
+//driver card 
 function setAddToListRequest(userID, request) {
 
     $.get(`../../../graduation-api/api/read.php/driver`, {
@@ -245,7 +221,8 @@ function setAddToListRequest(userID, request) {
             let currentTime = new Date().toLocaleTimeString();
             update(ref(db, `days/${getCurrentDate()}/${operator.park_id}/routes/${driver.taxi.route.route_id}/drivers/`), {
                 [userID]: {
-                    "approvedTime": currentTime
+                    "approvedTime": currentTime,
+                    "requestTime": request.requestTime
                 }
             });
             //remove request
@@ -279,35 +256,25 @@ function setEndWorkDayRequest(userID, request) {
 
             const dbRef = ref(getDatabase());
 
-            get(child(dbRef, `days/${getCurrentDate()}/${operator.park_id}/drivers/${userID}`)).then((snapshot) => {
-                let json = snapshot.val();
-                let workday = {
-                    "userID": userID,
-                    "parkID": operator.park_id,
-                    "workdayDate": getCurrentDate(),
-                    "workdayStart": json.startTime,
+            let currentTime = new Date().toLocaleTimeString();
 
-
+            $.ajax({
+                method: "PUT",
+                url: '../../../graduation-api/api/update.php/workday/driver',
+                data: {
+                    workdayEnd: currentTime,
+                    userID: userID,
+                    date: getCurrentDate()
                 }
-                $.ajax({
-                    method: "POST",
-                    url: '../../../graduation-api/api/create.php/workday/add',
-                    data: workday,
-                    success: function (data) {
-                        console.log(data)
-                    }
 
-                });
-                //change request responed
-                update(ref(db, `days/${getCurrentDate()}/${operator.park_id}/drivers/${userID}`), {
-                    status: "inactive"
-                });
-                //remove request
-                remove(ref(db, `days/${getCurrentDate()}/${operator.park_id}/requests/${userID}`));
-
-            }).catch((error) => {
-                console.error(error);
             });
+            //change request responed
+            update(ref(db, `days/${getCurrentDate()}/${operator.park_id}/drivers/${userID}`), {
+                status: "inactive",
+                workdayEnd: currentTime
+            });
+            //remove request
+            remove(ref(db, `days/${getCurrentDate()}/${operator.park_id}/requests/${userID}`));
 
 
         });
@@ -316,29 +283,30 @@ function setEndWorkDayRequest(userID, request) {
         });
     });
 }
+
 //drivers
 function setDriverList() {
-    const dbRef = ref(getDatabase());
-
-    get(child(dbRef, `days/${getCurrentDate()}/${operator.park_id}/drivers`)).then((snapshot) => {
-        //clear list
+    const driverShiftRef = ref(db, `days/${getCurrentDate()}/${operator.park_id}/drivers/`);
+    onValue(driverShiftRef, (snapshot) => {
         $("#drivers").empty();
+
         //fill driver list
         if (snapshot.exists()) {
             let drivers = snapshot.val();
             for (let driver in drivers) {
-                $("#drivers").append(driverTemplate(drivers[driver]));
+                if (!$(`#driver driver-list-${driver}`).length) {
+                    $("#drivers").append(driverTemplate(drivers[driver]));
+                }
             }
         }
-    }).catch((error) => {
-        console.error(error);
     });
 }
 
 function driverTemplate(driver) {
     let template = `
-    <div style="background-color:#424040" class="d-flex px-2 driver-card">
-        <div id="d-${driver.userID}" class="driver-img"></div>
+    <div id="driver-list-${driver.userID}" style="background-color:#424040" class="d-flex px-2 driver-card">
+        <div><img class="driver-img" src="../../../graduation-api/upload/driver/${driver.imagePath}" width="100"/></div>
+
         <div class="d-flex flex-column px-2">
                  <span class="driver-name">${driver.name}</span>
                  <span class="driver-taxi">${driver.taxi}</span>
@@ -349,6 +317,31 @@ function driverTemplate(driver) {
     $(`d-${driver.userID}`).css("background-image", `url("../../../graduation-api/upload/driver/${driver.userID}")`)
     return template;
 }
+
+function driverListTemplate2(driver) {
+    let template = `
+    
+    <div id="route-in-out-${driver.userID}"  class="d-flex flex-column px-2 driver-card">
+        <div class="d-flex ">
+        <div><img class="driver-img" src="../../../graduation-api/upload/driver/${driver.imagePath}" width="100"/></div>
+        <div class="d-flex flex-column px-2">
+                    <div class="d-flex flex-column px-2">
+                        <span class="driver-name">${driver.name}</span>
+                        <span class="driver-taxi">${driver.taxi}</span>
+                        
+
+                    </div>
+                    
+                    
+            </div>
+        </div>
+        
+    </div>
+    `;
+
+    return template;
+}
+
 
 
 setDriverList();
@@ -392,11 +385,23 @@ function setLists(routeID) {
         if (snapshot.exists()) {
 
             let json = snapshot.val();
+            let requests = [];
             for (let d in json) {
+                let driverRequest = {
+                    userID: d,
+                    requestTime: json[d].approvedTime
+                }
+                requests.push(driverRequest);
 
+            }
 
+            requests.sort(function (a, b) {
+                return a.requestTime.localeCompare(b.requestTime);
+            });
+            for (let request in requests) {
+                let userID = requests[request].userID;
                 const dbRef = ref(getDatabase());
-                get(child(dbRef, `days/${getCurrentDate()}/${operator.park_id}/drivers/${d}`)).then((snapshot) => {
+                get(child(dbRef, `days/${getCurrentDate()}/${operator.park_id}/drivers/${userID}`)).then((snapshot) => {
 
                     let json = snapshot.val();
                     let driver = {
@@ -406,11 +411,12 @@ function setLists(routeID) {
 
                         imagePath: json.imagePath
                     }
+                    if (!$(`#route-driver-list-${json.userID}`).length) {
+                        $("#drivers-list").append(driverListTemplate(driver));
+                    }
 
-                    $("#drivers-list").append(driverListTemplate(driver));
                     $(`#tT-${driver.userID}`).click(function () {
                         get(child(dbRef, `days/${getCurrentDate()}/${operator.park_id}/drivers/${driver.userID}`)).then((snapshot) => {
-                            $("#routes").empty();
                             //fill driver list
                             if (snapshot.exists()) {
                                 let json = snapshot.val();
@@ -423,13 +429,11 @@ function setLists(routeID) {
                                     "currentDest": json.route,
                                     "currentRider": 0,
                                     "totalRider": 0
-
                                 });
                             }
                         }).catch((error) => {
                             console.error(error);
                         });
-
 
                         //remove request
                         remove(ref(db, `days/${getCurrentDate()}/${operator.park_id}/routes/${routeID}/drivers/${driver.userID}`));
@@ -441,24 +445,26 @@ function setLists(routeID) {
                     console.error(error);
                 });
             }
+
+
         }
     });
 
 }
 
 function setInOrOutList(routeID) {
+    $("#in-list").empty();
+    $("#out-list").empty();
 
     const driverShiftRef = ref(db, `days/${getCurrentDate()}/${operator.park_id}/trips/${routeID}/`);
     onValue(driverShiftRef, (snapshot) => {
 
         if (snapshot.exists()) {
-
+            let inList = [];
+            let outList = [];
             let json = snapshot.val();
-            console.log(1)
- 
             for (let d in json) {
-                $("#in-list").empty();
-                $("#out-list").empty();
+
                 let trip = json[d];
                 const dbRef = ref(getDatabase());
                 get(child(dbRef, `days/${getCurrentDate()}/${operator.park_id}/drivers/${d}`)).then((snapshot) => {
@@ -468,20 +474,59 @@ function setInOrOutList(routeID) {
                         userID: json.userID,
                         taxi: json.taxi,
                         name: json.name,
-
                         imagePath: json.imagePath
                     }
-                    if (trip.inPark == 'yes') {
-                        $("#in-list").append(driverListTemplate2(driver));
 
+                    if (trip.inPark == 'yes') {
+                        inList.push(driver);
                     } else {
-                         $("#out-list").append(driverListTemplate2(driver));
+                        outList.push(driver);
+
 
                     }
+
+                    if (inList.length == 0) {
+                        $("#in-list").children().addClass("d-none");
+                    } else {
+                        $("#in-list").children().addClass("d-none");
+
+                        for (let d in inList) {
+                            let driver = inList[d];
+                            if (document.getElementById(`route-in-out-${driver.userID}`)) {
+                                $(`#in-list #route-in-out-${driver.userID}`).removeClass("d-none");
+                            } else {
+                                $("#in-list").append(driverListTemplate2(driver));
+                            }
+
+                        }
+
+                    }
+
+                    if (outList.length == 0) {
+
+                        $("#out-list").children().addClass("d-none");
+                    } else {
+                        $("#out-list").children().addClass("d-none");
+                        for (let d in outList) {
+                            let driver = outList[d];
+                            if (!$(`#out-list #route-in-out-${driver.userID}`).length) {
+                                $("#out-list").append(driverListTemplate2(driver));
+                            } else {
+                                $(`#out-list #route-in-out-${driver.userID}`).removeClass("d-none");
+                            }
+                        }
+
+                    }
+
+
                 }).catch((error) => {
                     console.error(error);
                 });
             }
+        } else {
+            $("#in-list").children().addClass("d-none");
+
+
         }
     });
 
@@ -502,9 +547,9 @@ function radioButtonTemplate(route, routeID) {
 function driverListTemplate(driver) {
     let template = `
     
-    <div  class="d-flex flex-column px-2 driver-card">
+    <div id="route-driver-list-${driver.userID}" class="d-flex flex-column px-2 driver-card">
         <div class="d-flex ">
-            <div id="d-${driver.userID}" class="driver-img"></div>
+            <div><img class="driver-img" src="../../../graduation-api/upload/driver/${driver.imagePath}" width="100"/></div>
             <div class="d-flex flex-column px-2">
                     <div class="d-flex flex-column px-2">
                         <span class="driver-name">${driver.name}</span>
@@ -522,31 +567,52 @@ function driverListTemplate(driver) {
         </div>
     </div>
     `;
-    $(`d-${driver.userID}`).css("background-image", `url("../../../graduation-api/upload/driver/${driver.imagePath}")`)
 
     return template;
 }
 
-function driverListTemplate2(driver) {
-    let template = `
-    
-    <div  class="d-flex flex-column px-2 driver-card">
-        <div class="d-flex ">
-            <div id="d-${driver.userID}" class="driver-img"></div>
-            <div class="d-flex flex-column px-2">
-                    <div class="d-flex flex-column px-2">
-                        <span class="driver-name">${driver.name}</span>
-                        <span class="driver-taxi">${driver.taxi}</span>
-                     
-                    </div>
-                    
-                    
-            </div>
-        </div>
-        
-    </div>
-    `;
-    $(`d-${driver.userID}`).css("background-image", `url("../../../graduation-api/upload/driver/${driver.imagePath}")`)
+function endWorkday() {
+    const dbRef = ref(getDatabase());
 
-    return template;
+    get(child(dbRef, `days/${getCurrentDate()}/${operator.park_id}/`)).then((snapshot) => {
+
+        let json = snapshot.val();
+        let flag = true;
+
+
+        if (json.trips != undefined) {
+            flag = false;
+        }
+        for (let r in json.routes) {
+            let route = json.routes[r];
+            if (route.drivers != undefined) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            let currentTime = new Date().toLocaleTimeString();
+            update(ref(db, `days/${getCurrentDate()}/${operator.park_id}/operators/${operator.user_id}`), {
+
+                "endShiftTime": currentTime,
+               
+               "status":"inactive"
+            });
+            update(ref(db, `days/${getCurrentDate()}/${operator.park_id}/workday`), {
+
+                "endTime": currentTime,
+               
+               "status":"inactive"
+            });
+        } else {
+            alert("there is some operation still processing")
+        }
+
+
+
+    });
+
+
+
 }
+$("#endWorkDayBTN").click(endWorkday);

@@ -54,13 +54,21 @@ class TaxiController
     }
     public function readAvailableTaxis($routeID)
     {
-        $sql = $this->conn->prepare("SELECT * FROM taxi WHERE  NOT EXISTS (SELECT * FROM driver WHERE driver.taxi_id=taxi.taxi_id) AND taxi.record_status='active' and taxi.route_id=$routeID
+        $sql = $this->conn->prepare("SELECT
+        t.*
+    FROM
+        taxi t,
+        driver d,
+        user u
+    WHERE
+        t.taxi_id = d.taxi_id AND u.user_id = d.user_id AND u.record_status = 'inactive' AND NOT EXISTS (SELECT * FROM driver d1 ,user u1 WHERE d1.user_id=u1.user_id and u1.record_status='active' and t.taxi_id=d1.taxi_id) and t.route_id=$routeID
         UNION
-        SELECT * FROM taxi WHERE  EXISTS (SELECT * FROM driver WHERE driver.taxi_id=taxi.taxi_id AND driver.record_status='inactive') AND taxi.record_status='active' and taxi.route_id=$routeID
-        
+        SELECT taxi.* FROM taxi WHERE NOT EXISTS  (SELECT driver.taxi_id FROM driver WHERE taxi.taxi_id=driver.taxi_id) AND taxi.record_status='active' and taxi.route_id=$routeID
+        ;
         ");
         $sql->execute();
         $data['data'] = $sql->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($data);
     }
+    
 }

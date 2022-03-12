@@ -162,17 +162,26 @@ $(document).ready(function () {
                     required: true,
                     minlength: 9,
                     maxlength: 9,
-                    number: true
-                    /*,
-                                        remote: {
-                                            url: "../../../graduation-api/api/create.php/operator/isIDAvailable",
-                                            type: "post",
-                                            data: {
-                                                id: function () {
-                                                    return $("#create-operator-form input[name=ID]").val();
-                                                }
-                                            }
-                                        }*/
+                    number: true,
+                    remote: {
+                        url: "../../../graduation-api/api/create.php/driver/isIDAvaiable",
+                        type: "post",
+                        data: {
+                            ID: function () {
+                                return $("#create-driver-form input[name=ID]").val();
+                            }
+                        },success: function(data)
+                        {
+                            if (data == 'false')
+                            {
+                              return false;
+                            }
+                            else
+                            {
+                               return true;
+                            }
+                        }
+                    }
                 },
                 street: {
                     required: true,
@@ -193,17 +202,17 @@ $(document).ready(function () {
                 },
                 email: {
                     required: true,
-                    isEmail: true
-                    /*,
-                                        remote: {
-                                            url: "../../../graduation-api/api/create.php/operator/isEmailAvailable",
-                                            type: "post",
-                                            data: {
-                                                email: function () {
-                                                    return $("#create-operator-form input[name=email]").val();
-                                                }
-                                            }
-                                        }*/
+                    isEmail: true,
+                    remote: {
+                        url: "../../../graduation-api/api/create.php/driver/isEmailAvailable",
+                        type: "post",
+                        data: {
+                            email: function () {
+                              
+                                return $("#create-driver-form input[name=email]").val();
+                            }
+                        }
+                    }
                 },
                 phoneNO: {
                     required: true,
@@ -211,17 +220,16 @@ $(document).ready(function () {
                     maxlength: 10,
                     number: true,
                     isPhone: true,
-                    /*
-                                        remote: {
-                                            url: "../../../graduation-api/api/create.php/operator/isPhoneAvailable",
-                                            type: "post",
-                                            data: {
-                                                phone: function () {
-                                                    return $("#create-operator-form input[name=phoneNO]").val();
-                                                }
-                                            }
-                                        }*/
-
+                    
+                    remote: {
+                        url: "../../../graduation-api/api/create.php/driver/isPhoneAvaiable",
+                        type: "post",
+                        data: {
+                            phoneNO: function () {
+                                return $("#create-driver-form input[name=phoneNO]").val();
+                            }
+                        }
+                    }
                 },
                 pass: {
                     required: true,
@@ -245,7 +253,8 @@ $(document).ready(function () {
                 ID: {
                     minlength: "phone must be at least 9 number long",
                     maxlength: "phone must be at least 9 number long",
-                    number: "phone must be only numbers"
+                    number: "phone must be only numbers",
+                    remote: "username already in use"
                 },
                 email: {
                     remote: "username already in use"
@@ -262,9 +271,7 @@ $(document).ready(function () {
                         url: '../../../graduation-api/api/create.php/driver/add',
                         type: 'POST',
                         data: formData,
-                        success: function (data) {
-                            alert(data)
-                        },
+
                         cache: false,
                         contentType: false,
                         processData: false
@@ -292,8 +299,11 @@ $(document).ready(function () {
             for (let x = 0; x < drivers.data.length; x++) {
                 let driver = drivers.data[x];
                 let editBTN = `<button id="${driver.user_id}-e" class="btn btn-success"><i class="fas fa-edit"></i></button>`;
+                let changeTaxi = `<button id="${driver.user_id}-t" class="mx-1 btn btn-warning"><i class="fa-solid fa-taxi"></i></button>`;
+
                 let deleteBTN = `<button id="${driver.user_id}-d" class="mx-1 btn btn-danger"><i class="fas fa-trash-alt"></i></button>`;
-                let container = `<div class="d-flex">${editBTN} ${deleteBTN}</div>`
+               
+                let container = `<div class="d-flex">${editBTN} ${changeTaxi} ${deleteBTN}</div>`
                 if (driver.taxi == 'empty') {
                     $('#drivers-table').dataTable().fnAddData([
                         driver.FName + " " + driver.LName, driver.email, driver.ID, 'empty', 'empty', 'empty', 'empty',
@@ -317,7 +327,72 @@ $(document).ready(function () {
                 $(`#${driver.user_id}-e`).click(function () {
 
                     $("#editModel").modal('show');
-                    setOperatorForm(operator);
+                    setOperatorForm(driver);
+                });
+                $(`#${driver.user_id}-t`).click(function () {
+                    $("#changeTaxi").modal('show');
+                    $.get("../../../graduation-api/api/read.php/parks", function (data) {
+
+                        let parks = JSON.parse(data);
+            
+                        $("#changeTaxi .parks-select").empty();
+                        $("#changeTaxi .parks-select").append(`<option value="">Select park...</option>`)
+                        $("#changeTaxi  .routes-select").append(`<option value="">Select route...</option>`)
+                        $("#changeTaxi  .taxis-select").append(`<option value="">Select taxi...</option>`)
+                        for (let x = 0; x < parks.data.length; x++) {
+                            let park = parks.data[x];
+                            //fill park select
+                            $("#changeTaxi .parks-select").append(`<option value="${park.park_id}">${park.park_name}</option>`);
+                        }
+            
+            
+                    });
+                    $("#changeTaxi .parks-select").click(function () {
+                        var optionSelected = $("option:selected", this);
+                        var valueSelected = this.value;
+            
+                        if (valueSelected == "") {
+                            $("#changeTaxi  .routes-select").empty();
+                            $("#changeTaxi  .routes-select").append(`<option value="">Select park...</option>`)
+            
+                        } else {
+                            $.get(`../../../graduation-api/api/read.php/park/${valueSelected}/routes`, function (data) {
+                                //clear select
+                                $("#changeTaxi  .routes-select").empty();
+                                $("#changeTaxi  .routes-select").append(`<option value="">Select park...</option>`)
+            
+                                let routes = JSON.parse(data);
+                                for (let x = 0; x < routes.data.length; x++) {
+                                    let route = routes.data[x];
+                                    $("#changeTaxi .routes-select").append(`<option value="${route.route_id}">${route.dest}</option>`);
+                                }
+                            });
+                        }
+            
+                    });
+                    $("#changeTaxi .routes-select").click(function () {
+                        var optionSelected = $("option:selected", this);
+                        var valueSelected = this.value;
+            
+                        if (valueSelected == "") {
+                            $("#changeTaxi  .taxis-select").empty();
+                            $("#changeTaxi  .taxis-select").append(`<option value="">Select taxi...</option>`)
+            
+                        } else {
+                            $.get(`../../../graduation-api/api/read.php/route/${valueSelected}/taxis`, function (data) {
+                                //clear select
+                                $("#changeTaxi  .taxis-select").empty();
+                                $("#changeTaxi  .taxis-select").append(`<option value="">Select taxi...</option>`)
+            
+                                let taxis = JSON.parse(data);
+                                for (let x = 0; x < taxis.data.length; x++) {
+                                    let taxi = taxis.data[x];
+                                    $("#changeTaxi .taxis-select").append(`<option value="${taxi.taxi_id}">${taxi.brand+" "+taxi.car_year+" "+taxi.plate_no}</option>`);
+                                }
+                            });
+                        }
+            
+                    });
                 });
                 $(`#${driver.user_id}-d`).click(function () {
 
@@ -356,7 +431,7 @@ $(document).ready(function () {
                 }
             }
             //set photo
-            $(".profile-form-photo").css("background-image", `url("../../../graduation-api/upload/operator/` + operator.imagePath);
+            $(".profile-form-photo").css("background-image", `url("../../../graduation-api/upload/driver/` + operator.imagePath);
         });
         $('#update-operator-form').submit(function (e) {
             e.preventDefault();
@@ -509,4 +584,5 @@ $(document).ready(function () {
             }
         });
     }
+    
 });

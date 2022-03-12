@@ -59,7 +59,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">
+                        <a class="nav-link active" aria-current="page" href="../park/index.html">
                             <div class="d-flex align-items-center p-0">
                                 <div style="width: 20px;">
                                     <i class="fas fa-parking"></i>
@@ -68,25 +68,54 @@
                             </div>
                         </a>
                     </li>
-
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">
+                        <a class="nav-link active" aria-current="page" href="../operator/index.html">
+                            <div class="d-flex align-items-center p-0">
+                                <div style="width: 20px;">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <span class="px-2">Operator</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../route/index.html">
+                            <div class="d-flex align-items-center p-0">
+                                <div style="width: 20px;">
+                                    <i class="fas fa-route"></i>
+                                </div>
+                                <span class="px-2">Route</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../taxi/index.html">
+                            <div class="d-flex align-items-center p-0">
+                                <div style="width: 20px;">
+                                    <i class="fas fa-taxi"></i>
+                                </div>
+                                <span class="px-2">Taxi</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../driver/index.html">
+                            <div class="d-flex align-items-center p-0">
+                                <div style="width: 20px;">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <span class="px-2">Driver</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../statistics/">
                             <div class="d-flex align-items-center">
                                 <div style="width: 20px;">
                                     <i class="fas fa-chart-bar"></i>
                                 </div>
 
                                 <span class="px-2">Statistics</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">
-                            <div class="d-flex align-items-center">
-                                <div style="width: 20px;">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                </div>
-                                <span class="px-2">Logout</span>
                             </div>
                         </a>
                     </li>
@@ -131,7 +160,8 @@
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form id="create-driver-form" enctype="multipart/form-data" name="fileinfo">
+                                                        <form id="create-driver-form" enctype="multipart/form-data"
+                                                            name="fileinfo">
                                                             <div class="container-fluid">
                                                                 <div class="row py-1 d-flex flex-column">
                                                                     <div class="col-lg-6 col-md-12">
@@ -250,14 +280,15 @@
                                                                             name="CPass" placeholder="confirm password"
                                                                             aria-label="CPass">
                                                                     </div>
-                                                                </div> <div class="row py-1">
+                                                                </div>
+                                                                <div class="row py-1">
                                                                     <div class="col d-flex justify-content-end">
                                                                         <button type="submit" id="addOperator"
-                                                                        class="btn btn-success mx-1">Confirm</button>
-                                                                        <button type="button" 
-                                                                        class=" btn btn-danger">Clear</button>
+                                                                            class="btn btn-success mx-1">Confirm</button>
+                                                                        <button type="button"
+                                                                            class=" btn btn-danger">Clear</button>
                                                                     </div>
-                                                               
+
                                                                 </div>
                                                             </div>
 
@@ -284,132 +315,163 @@
                                                 <th>Action</th>
                                             </thead>
                                         </table>
-                                        
+
+                                    </div>
+                                    <div class="modal" id="changeTaxi" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Change Taxi</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="col-lg-8 col-md-12">
+                                                        <label class="form-label">Park</label>
+
+                                                        <select class="form-select parks-select"
+                                                            aria-label="Default select example" name="park_id">
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-12">
+                                                        <label class="form-label">Route</label>
+
+                                                        <select class="form-select routes-select"
+                                                            aria-label="Default select example" name="route_id">
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-8 col-md-12">
+                                                        <label class="form-label">Available Taxi</label>
+
+                                                        <select class="form-select taxis-select"
+                                                            aria-label="Default select example" name="taxi_id">
+
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="modal fade" id="editModel" tabindex="-1"
-                                    aria-labelledby="editModelLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="editModelLabel">Operator</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form id="update-operator-form" enctype="multipart/form-data" >
-                                                    <div class="container-fluid">
-                                                        <div class="row py-1 d-flex flex-column">
-                                                            <div class="col-lg-6 col-md-12">
-                                                         
+                                        aria-labelledby="editModelLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-scrollable">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editModelLabel">Driver</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form id="update-operator-form" enctype="multipart/form-data">
+                                                        <div class="container-fluid">
+                                                            <div class="row py-1 d-flex flex-column">
+                                                                <div class="col-lg-6 col-md-12">
+
                                                                     <div class="profile-form-photo">
 
                                                                     </div>
-                                                            </div>
-                                                           
-                                                            <div class="col-lg-8 col-md-12">
-                                                                <label class="form-label">Park</label>
+                                                                </div>
 
-                                                                <select class="form-select parks-select"
-                                                                    aria-label="Default select example"
-                                                                    name="park_id">
 
-                                                                </select>
                                                             </div>
-                                                        </div>
-                                                        <div class="row py-1">
-                                                            <div class="col-lg-6 col-md-12">
-                                                                <label class="form-label">First Name</label>
-                                                                <input type="text" class="form-control"
-                                                                    name="FName" placeholder="First name"
-                                                                    aria-label="First name">
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-12">
-                                                                <label class="form-label">Mid Name</label>
+                                                            <div class="row py-1">
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">First Name</label>
+                                                                    <input type="text" class="form-control" name="FName"
+                                                                        placeholder="First name"
+                                                                        aria-label="First name">
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Mid Name</label>
 
-                                                                <input type="text" class="form-control"
-                                                                    name="MName" placeholder="Mid name"
-                                                                    aria-label="Mid name">
+                                                                    <input type="text" class="form-control" name="MName"
+                                                                        placeholder="Mid name" aria-label="Mid name">
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row py-1">
-                                                            <div class="col-lg-6 col-md-12">
-                                                                <label class="form-label">Last Name</label>
-                                                                <input type="text" class="form-control"
-                                                                    name="LName" placeholder="Last name"
-                                                                    aria-label="Last name">
+                                                            <div class="row py-1">
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Last Name</label>
+                                                                    <input type="text" class="form-control" name="LName"
+                                                                        placeholder="Last name" aria-label="Last name">
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row py-1">
-                                                            <div class="col-lg-6 col-md-12">
-                                                                <label class="form-label">Birthdate</label>
-                                                                <input type="date" class="form-control"
-                                                                    name="birthdate" placeholder="birthdate"
-                                                                    aria-label="birthdate">
+                                                            <div class="row py-1">
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Birthdate</label>
+                                                                    <input type="date" class="form-control"
+                                                                        name="birthdate" placeholder="birthdate"
+                                                                        aria-label="birthdate">
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">ID</label>
+                                                                    <input type="text" class="form-control" name="ID"
+                                                                        placeholder="ID" aria-label="ID">
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-6 col-md-12">
-                                                                <label class="form-label">ID</label>
-                                                                <input type="text" class="form-control"
-                                                                    name="ID" placeholder="ID" aria-label="ID">
+                                                            <div class="row py-1">
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Email</label>
+                                                                    <input type="email" class="form-control"
+                                                                        name="email" placeholder="email"
+                                                                        aria-label="email">
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Phone NO</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="phoneNO" placeholder="Phone NO"
+                                                                        aria-label="phoneNO">
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row py-1">
-                                                            <div class="col-lg-6 col-md-12">
-                                                                <label class="form-label">Email</label>
-                                                                <input type="email" class="form-control"
-                                                                    name="email" placeholder="email"
-                                                                    aria-label="email">
+                                                            <div class="row py-1">
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Street</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="street" placeholder="street"
+                                                                        aria-label="street">
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">City</label>
+                                                                    <input type="text" class="form-control" name="city"
+                                                                        placeholder="City" aria-label="city"
+                                                                        value="Ramallah" readonly>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-lg-6 col-md-12">
-                                                                <label class="form-label">Phone NO</label>
-                                                                <input type="text" class="form-control"
-                                                                    name="phoneNO" placeholder="Phone NO"
-                                                                    aria-label="phoneNO">
+                                                            <div class="row py-1">
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Password</label>
+                                                                    <input type="text" class="form-control" name="pass"
+                                                                        placeholder="password" aria-label="street">
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-12">
+                                                                    <label class="form-label">Confirm
+                                                                        password</label>
+                                                                    <input type="text" class="form-control" name="CPass"
+                                                                        placeholder="confirm password"
+                                                                        aria-label="CPass">
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row py-1">
-                                                            <div class="col-lg-6 col-md-12">
-                                                                <label class="form-label">Street</label>
-                                                                <input type="text" class="form-control"
-                                                                    name="street" placeholder="street"
-                                                                    aria-label="street">
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-12">
-                                                                <label class="form-label">City</label>
-                                                                <input type="text" class="form-control"
-                                                                    name="city" placeholder="City"
-                                                                    aria-label="city" value="Ramallah" readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row py-1">
-                                                            <div class="col-lg-6 col-md-12">
-                                                                <label class="form-label">Password</label>
-                                                                <input type="text" class="form-control"
-                                                                    name="pass" placeholder="password"
-                                                                    aria-label="street">
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-12">
-                                                                <label class="form-label">Confirm
-                                                                    password</label>
-                                                                <input type="text" class="form-control"
-                                                                    name="CPass" placeholder="confirm password"
-                                                                    aria-label="CPass">
-                                                            </div>
-                                                        </div> <div class="row py-1">
-                                                            <div class="col d-flex justify-content-end">
-                                                                <button type="submit" id="updateOperator"
-                                                                class="btn btn-success ">Update</button>
-                                                               
-                                                            </div>
-                                                       
-                                                        </div>
-                                                    </div>
+                                                            <div class="row py-1">
+                                                                <div class="col d-flex justify-content-end">
+                                                                    <button type="submit" id="updateOperator"
+                                                                        class="btn btn-success ">Update</button>
 
-                                                </form>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+
                                             </div>
-
                                         </div>
                                     </div>
-                                </div>
                                 </div>
                             </div>
                         </div>

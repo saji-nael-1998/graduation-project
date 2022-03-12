@@ -182,16 +182,30 @@ class OperatorController
         `park` p
     WHERE
         u.user_id = o.user_id AND p.park_id = o.park_id and u.email='$email' and u.pass='$pass'";
-      
+
         $statement = $this->conn->prepare($sql);
         $statement->execute();
         $result =   $statement->fetch(PDO::FETCH_ASSOC);
-        if (empty( $result ))
+        if (empty($result))
             $data['data']['proccess'] = 'failed';
         else {
             $data['data']['proccess'] = 'success';
             $data['data']['operator'] = $result;
         }
         return  $data;
+    }
+    public function ownEmail($email, $userID)
+    {
+        $sql = $this->conn->prepare("SELECT user.user_id as 'userID'  FROM user 
+        INNER JOIN driver on driver.user_id=user.user_id AND user.record_status='active' and email='$email'");
+        $sql->execute();
+        $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+        if (!empty($result)) {
+            if ($result['userID'] == $userID) {
+                return 'true';
+            } else {
+                return 'false';
+            }
+        }
     }
 }

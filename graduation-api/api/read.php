@@ -36,6 +36,13 @@ $app->get('/park/{park}/routes', function (Request $request, Response $response)
     $response->getBody()->write($data);
     return $response;
 });
+//get specific park
+$app->get('/park/{park}/taxis', function (Request $request, Response $response) {
+    $park = $request->getAttribute('park');
+    $parkController = new ParkController();
+    $data = $parkController->readParkTaxis($park);
+ 
+});
 //get all routes
 $app->get('/routes', function (Request $request, Response $response) {
     $routeController = new RouteController();
@@ -112,5 +119,42 @@ $app->get('/workday/driver', function (Request $request, Response $response) {
     $response->getBody()->write(json_encode($data));
     return $response;
 });
+//driver own email
+$app->get('/driver/ownEmail', function (Request $request, Response $response) {
+    $userID =$_GET['userID'];
+    $email =$_GET['email'];
+
+    $driverController = new DriverController();
+    $data=$driverController->ownEmail($email,$userID);
+    $response->getBody()->write(json_encode($data));
+    return $response;
+});
+//driver own phone
+$app->get('/driver/ownPhoneNO', function (Request $request, Response $response) {
+    $userID =$_GET['userID'];
+    $email =$_GET['phoneNO'];
+
+    $driverController = new DriverController();
+    $data=$driverController->ownPhoneNO($email,$userID);
+    $response->getBody()->write(json_encode($data));
+    return $response;
+});
+
+//driver own email
+$app->get('/driver/ownID', function (Request $request, Response $response) {
+    $userID =$_GET['userID'];
+    $email =$_GET['ID'];
+
+    $driverController = new DriverController();
+    $data=$driverController->ownID($email,$userID);
+    $response->getBody()->write(json_encode($data));
+    return $response;
+});
+
+
+
+
+
+
 $app->run();
 

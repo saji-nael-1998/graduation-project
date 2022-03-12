@@ -142,6 +142,7 @@ $(document).ready(function () {
                         type: "post",
                         data: {
                             email: function () {
+                                alert(2)
                                 return $("#create-operator-form input[name=email]").val();
                             }
                         }
@@ -279,7 +280,8 @@ $(document).ready(function () {
                 }
             }
             //set photo
-            $(".profile-form-photo").css("background-image", `url("../../../graduation-api/upload/operator/` + operator.imagePath);
+            
+            $("#update-operator-form .profile-form-photo").css("background-image", `url("../../../graduation-api/upload/operator/` + operator.imagePath);
         });
         $('#update-operator-form').submit(function (e) {
             e.preventDefault();

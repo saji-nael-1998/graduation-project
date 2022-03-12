@@ -162,6 +162,33 @@ $app->post('/driver/add', function (Request $request, Response $response, array 
     $driverController->uploadPhoto($user_id, $filename);
     
 });
+//check driver email 
+$app->post('/driver/isEmailAvailable', function (Request $request, Response $response) {
+
+    $postArr  = $request->getParsedBody();
+   
+    $email=$postArr["email"];
+    $driverController = new driverController();
+    $flag =  $driverController->isEmailAvaiable($email);
+    $response->getBody()->write(json_encode($flag));
+    return $response;
+});
+$app->post('/driver/isPhoneAvaiable', function (Request $request, Response $response) {
+    $postArr  = $request->getParsedBody();
+    $email=$postArr["phoneNO"];
+    $driverController = new driverController();
+    $flag =  $driverController->isPhoneAvaiable($email);
+    $response->getBody()->write(json_encode($flag));
+    return $response;
+});
+$app->post('/driver/isIDAvaiable', function (Request $request, Response $response) {
+    $postArr  = $request->getParsedBody();
+    $email=$postArr["ID"];
+    $driverController = new driverController();
+    $flag =  $driverController->isIDAvaiable($email);
+    $response->getBody()->write(json_encode($flag));
+    return $response;
+});
 //workday creation
 $app->post('/workday/add', function (Request $request, Response $response, array $args) {
     $postArr  = $request->getParsedBody();

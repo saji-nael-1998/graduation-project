@@ -7,6 +7,8 @@ require '../vendor/autoload.php';
 require '../controller/parkcontroller.php';
 require '../controller/routeController.php';
 require '../controller/operatorController.php';
+require '../controller/workdayController.php';
+
 $app = new \Slim\App;
 
 //delete route
@@ -52,6 +54,17 @@ $app->put('/operator', function ($request) {
    
     $operatorController = new OperatorController();
     $operatorController->update($operator);
+});
+
+$app->put('/workday/driver', function ($request) {
+    
+  
+    $putArr  = $request->getParsedBody();
+    $userID= $putArr['userID'];
+    $workdayEnd= $putArr['workdayEnd'];
+    $date= $putArr['date'];
+    $work=new WorkdayController();
+    $work->updateDriverWorkday($date,$userID,$workdayEnd);
 });
 $app->put('/operator/isEmailAvailable', function (Request $request, Response $response) {
 

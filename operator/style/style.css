@@ -231,13 +231,21 @@ html, body {
 .driver-card .driver-img {
     width: 75px;
     height: 75px;
-    background-image: url("../img/saji.jpg");
+    
     border-radius: 10px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
 
+.profile-form-photo {
+    height: 120px;
+    width: 120px;
+    border-radius: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 .driver-card .driver-name {
     color: white;
     font-weight: bold;
